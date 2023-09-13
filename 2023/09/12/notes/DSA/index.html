@@ -1,0 +1,848 @@
+<!DOCTYPE html><html lang="en"><head><meta charset="UTF-8"><title>notes/DSA │ Yins</title><link rel="stylesheet" href="/blogs/css/oasis.css"><meta name="generator" content="Hexo 6.3.0"><link rel="alternate" href="/blogs/atom.xml" title="Yins" type="application/atom+xml">
+</head><body><div id="content"><h1 id="title">notes/DSA</h1><div id="menu-outer"><nav id="menu-inner"><a id="menu-back" href="javascript:history.back()">Back</a><time datetime="2023-09-13T02:55:54.537Z">2023-09-12</time></nav></div><div id="content-outer"><div id="content-inner"><article id="post"><h3 id="Data-Structure-amp-Algorithms-Review-CLRS-“-toc"><a href="#Data-Structure-amp-Algorithms-Review-CLRS-“-toc" class="headerlink" title="Data Structure &amp; Algorithms Review(CLRS)	“[toc]"></a>Data Structure &amp; Algorithms Review(CLRS)	“[toc]</h3><h1 id="Data-Structure-amp-Algorithms-Review-CLRS"><a href="#Data-Structure-amp-Algorithms-Review-CLRS" class="headerlink" title="Data Structure &amp; Algorithms Review(CLRS)"></a>Data Structure &amp; Algorithms Review(CLRS)</h1><p>标签（空格分隔）： Computer Science Knowledge</p>
+<h3 id="Todo"><a href="#Todo" class="headerlink" title="Todo"></a>Todo</h3><ul>
+<li><input checked="" disabled="" type="checkbox"> BST</li>
+<li><input checked="" disabled="" type="checkbox"> Graph</li>
+<li><input checked="" disabled="" type="checkbox"> Minimum Spanning Tree (Greedy)<br>Prim<br>Kruskal</li>
+<li><input checked="" disabled="" type="checkbox"> Shortest Path<br>Dijkstra (Greedy)<br>BF (DP)<br>DAG (DP)<br>Floyd (DP)<br>Trans (DP)</li>
+<li><input checked="" disabled="" type="checkbox"> Dynamic Programming</li>
+<li><input checked="" disabled="" type="checkbox"> Greedy Algorithm</li>
+<li><input checked="" disabled="" type="checkbox"> NP Completeness</li>
+</ul>
+<h2 id="1-Binary-Search-Tree"><a href="#1-Binary-Search-Tree" class="headerlink" title="1 Binary Search Tree"></a>1 Binary Search Tree</h2><h3 id="1-1-Basic-Definition"><a href="#1-1-Basic-Definition" class="headerlink" title="1.1 Basic Definition"></a>1.1 Basic Definition</h3><ul>
+<li><strong>Successor(x)</strong> &#x3D; min in right(x)</li>
+<li><strong>Predecessor(x)</strong> &#x3D; max in left(x)</li>
+<li><strong>Insertion</strong> (Insert at right place as leaves)</li>
+</ul>
+<pre><code class="python">    Tree Insertion
+    y ← NIL 
+    x ← root[T] 
+    while x ≠ NIL
+        do y ← x
+            if key [z] &lt; key[x]
+            then x ← left [x]
+            else x ← right [x]
+    p[z]←y
+    if y = NIL
+        then root [T] ← z // Tree T was empty 
+        else if key [z] &lt; key [y]
+        then left [y] ← z else right [y] ← z
+</code></pre>
+<ul>
+<li><strong>Deletion</strong><ul>
+<li><strong>case1</strong>: z has no children<br>Delete z by making the parent of z point to NIL</li>
+<li><strong>case2</strong>: z has one child<br>Delete z by making the parent of z point to z’s child, instead of to z</li>
+<li><strong>case3</strong>: z has two children<br>Replace z with its successor<br>p.s. Also could replace with z’s predecessor</li>
+</ul>
+</li>
+</ul>
+<h3 id="1-2-BST-Opeartions’-Running-Time"><a href="#1-2-BST-Opeartions’-Running-Time" class="headerlink" title="1.2 BST Opeartions’ Running Time"></a>1.2 BST Opeartions’ Running Time</h3><table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Time</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>SEARCH</td>
+<td>O(h)</td>
+</tr>
+<tr>
+<td>PREDECESSOR</td>
+<td>O(h)</td>
+</tr>
+<tr>
+<td>SUCCESOR</td>
+<td>O(h)</td>
+</tr>
+<tr>
+<td>MINIMUM</td>
+<td>O(h)</td>
+</tr>
+<tr>
+<td>MAXIMUM</td>
+<td>O(h)</td>
+</tr>
+<tr>
+<td>INSERT</td>
+<td>O(h)</td>
+</tr>
+<tr>
+<td>DELETE</td>
+<td>O(h)</td>
+</tr>
+<tr>
+<td><strong>Best case</strong> running time is <strong>O(log N)</strong></td>
+<td></td>
+</tr>
+<tr>
+<td><strong>Worst case</strong> running time is <strong>O(N)</strong> (when you Insert elements in ascending order)</td>
+<td></td>
+</tr>
+</tbody></table>
+<h3 id="1-3-AVL-Trees"><a href="#1-3-AVL-Trees" class="headerlink" title="1.3 AVL Trees"></a>1.3 AVL Trees</h3><p>AVL trees are height-balanced binary search trees where the height of the two subtrees of a node <strong>differs by at most one</strong></p>
+<h4 id="1-3-1-Insertion-amp-Rotations"><a href="#1-3-1-Insertion-amp-Rotations" class="headerlink" title="1.3.1 Insertion &amp; Rotations"></a>1.3.1 Insertion &amp; Rotations</h4><ul>
+<li><p><strong>Outside Cases</strong> (require <strong>single rotation</strong>) :</p>
+<ul>
+<li>Insertion in the <strong>left</strong> subtree of the <strong>left</strong> child of U <strong>(LL)</strong></li>
+<li>Insertion in the <strong>right</strong> subtree of the <strong>right</strong> child of U <strong>(RR)</strong><br>Rotate like belowed fugure:</li>
+</ul>
+<p><img src="https://upload.wikimedia.org/wikipedia/commons/3/31/Tree_rotation_animation_250x250.gif" alt="Single Rotation"></p>
+</li>
+</ul>
+<p>p.s. <strong>Single rotation</strong> when <strong>rotate</strong> the <strong>unbalance node</strong> with its <strong>child</strong> to recover balance.</p>
+<ul>
+<li><strong>Inside Cases</strong> (require <strong>double rotation</strong>) :<ul>
+<li>Insertion in the <strong>right</strong> subtree of the <strong>left</strong> child of U (RL)</li>
+<li>Insertion in the <strong>left</strong> subtree of the <strong>right</strong> child of U (LR)</li>
+</ul>
+</li>
+</ul>
+<p>Example：<br><img src="https://media.geeksforgeeks.org/wp-content/uploads/AVL_Tree_4-1.jpg" alt="Double Rotation Example"><br>p.s. <strong>Double rotation</strong> when <strong>rotate</strong> the <strong>unbalance nodes</strong> with its <strong>grandchild</strong> to recover balance.</p>
+<ul>
+<li>1st rotate the unbalanced node’s child with unbalanced node’s grandchild</li>
+<li>2nd rotate the unbalanced node with its new child(original grandchild)</li>
+</ul>
+<h4 id="1-3-2-Deletion-amp-Rotation"><a href="#1-3-2-Deletion-amp-Rotation" class="headerlink" title="1.3.2 Deletion &amp; Rotation"></a>1.3.2 Deletion &amp; Rotation</h4><ul>
+<li>case1: Delete leaf nodes<br>Outside leaf nodes<br><img src="https://img-blog.csdnimg.cn/20200418172744475.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzIxMzg4NTM1,size_16,color_FFFFFF,t_70" alt="Outside leaves"><br>Inside lead nodes<br><img src="https://img-blog.csdnimg.cn/20200418173550484.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzIxMzg4NTM1,size_16,color_FFFFFF,t_70" alt="Inside leaves"></li>
+<li>case2: Delete nodes with 1 left child<br><img src="https://img-blog.csdnimg.cn/20200418174425322.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzIxMzg4NTM1,size_16,color_FFFFFF,t_70" alt="nodes with 1 left child"></li>
+<li>case3: Delete nodes with 1 right child<br>Very similar to case2<br><img src="https://img-blog.csdnimg.cn/2020041817570775.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzIxMzg4NTM1,size_16,color_FFFFFF,t_70" alt="nodes with 1 right child"></li>
+<li>case4: Delete nodes with 2 chidren<br><img src="https://img-blog.csdnimg.cn/20200418180925175.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzIxMzg4NTM1,size_16,color_FFFFFF,t_70" alt="Delete nodes with 2 chidren 1"><br><img src="https://img-blog.csdnimg.cn/20200418181649249.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzIxMzg4NTM1,size_16,color_FFFFFF,t_70" alt="Delete nodes with 2 chidren 2"><br><img src="https://img-blog.csdnimg.cn/20200418182253185.png?x-oss-process=image/watermark,type_ZmFuZ3poZW5naGVpdGk,shadow_10,text_aHR0cHM6Ly9ibG9nLmNzZG4ubmV0L3FxXzIxMzg4NTM1,size_16,color_FFFFFF,t_70" alt="Delete nodes with 2 chidren 3"><br>p.s. When nodes has children we can replace it with its predecessor and its predecessor. Convert problem to the deletion its predecessor which will finally convert case to case1 and case2.<br><a target="_blank" rel="noopener" href="https://blog.csdn./">Great blogs about AVL deletion (ch)</a></li>
+</ul>
+<h4 id="1-3-4-AVL-Opeartions’-Running-Time"><a href="#1-3-4-AVL-Opeartions’-Running-Time" class="headerlink" title="1.3.4 AVL Opeartions’ Running Time"></a>1.3.4 AVL Opeartions’ Running Time</h4><table>
+<thead>
+<tr>
+<th>Operation</th>
+<th>Time</th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Single restructure&#x2F;rotation</td>
+<td>O(1)</td>
+</tr>
+<tr>
+<td>Find&#x2F;Search</td>
+<td>O(logn)</td>
+</tr>
+<tr>
+<td>Insertion</td>
+<td>O(logn)</td>
+</tr>
+<tr>
+<td>Deletion</td>
+<td>O(logn)</td>
+</tr>
+</tbody></table>
+<h2 id="2-Graph"><a href="#2-Graph" class="headerlink" title="2 Graph"></a>2 Graph</h2><h3 id="2-1-Graph-Basic-Definition"><a href="#2-1-Graph-Basic-Definition" class="headerlink" title="2.1 Graph Basic Definition"></a>2.1 Graph Basic Definition</h3><ul>
+<li>Definition &#x3D; a set of vertices (nodes) with edges (links) between them.</li>
+<li>Directed vs undirected</li>
+<li>Dense($|E|≈|V|^2$) vs Sparse($|E|≈|V|$)</li>
+<li>Indegree: Edeges entering V</li>
+<li>Outdegree: Edeges leaving V</li>
+<li>Length of path: Numbers of edges along the path</li>
+<li>Cycles vs Acyclic graph: Tree, Forest, Rooted Tree</li>
+<li>Strong Connected(Digraph): Every two vertices are reachable from each other</li>
+<li>Connected(Undigraph): Every pair of vertices are connected by a path</li>
+</ul>
+<h3 id="2-2-Representing-Graph"><a href="#2-2-Representing-Graph" class="headerlink" title="2.2 Representing Graph"></a>2.2 Representing Graph</h3><h4 id="2-2-1-Adjacency-Matrix"><a href="#2-2-1-Adjacency-Matrix" class="headerlink" title="2.2.1 Adjacency Matrix"></a>2.2.1 Adjacency Matrix</h4><p>| Memory                          | $O(|V|^2)$   |<br>| :—————————— | :————- |<br>| Preferred when dense:           | $|E|≈|V|^2$ |<br>| if (u, v) ∈ E                  | $O(1)$       |<br>| list all vertices adjacent to u | $O(|V|)$     |</p>
+<p>e.g.<br><img src="https://s2.loli.net/2022/01/03/K914LlfUvOMHVXd.png" alt="Ajacency Matrix"></p>
+<h4 id="2-2-1-Adjacency-List"><a href="#2-2-1-Adjacency-List" class="headerlink" title="2.2.1 Adjacency List"></a>2.2.1 Adjacency List</h4><table>
+<thead>
+<tr>
+<th align="left">Memory</th>
+<th align="left">$Θ(V + E)$</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">Preferred when sparse:</td>
+<td align="left">$</td>
+</tr>
+<tr>
+<td align="left">if (u, v) ∈ E</td>
+<td align="left">$O(degree(u))$</td>
+</tr>
+<tr>
+<td align="left">list all vertices adjacent to u</td>
+<td align="left">$Θ(degree(u))$</td>
+</tr>
+</tbody></table>
+<p>e.g.<br><img src="https://s2.loli.net/2022/01/03/nUvaWcdAgxi7Fjr.png" alt="Ajacency List"></p>
+<h3 id="2-3-Graph-Search"><a href="#2-3-Graph-Search" class="headerlink" title="2.3 Graph Search"></a>2.3 Graph Search</h3><h4 id="2-3-1-BFS-Breadth-First-Search"><a href="#2-3-1-BFS-Breadth-First-Search" class="headerlink" title="2.3.1 BFS (Breadth-First Search)"></a>2.3.1 BFS (Breadth-First Search)</h4><p>Using a Queue to calculate a shortest path from the source node to all other nodes</p>
+<table>
+<thead>
+<tr>
+<th><strong>Running Time</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Ajacency List</td>
+</tr>
+<tr>
+<td>Ajencency Matrix</td>
+</tr>
+</tbody></table>
+<pre><code class="python">BFS(G, s)
+ for each vertex u ∈ V
+    u. color = WHITE
+    u.d = ∞
+    u.π = NIL
+ s.color = GRAY
+ s.d = 0
+ s.π= NIL
+ Q = 0
+ ENQUEUE(Q, s)
+ while Q ≠ 0:
+    u = DEQUEUE(Q)
+    for each v ∈ Adj[u]
+        if v.color == WHITE
+            v.color = GRAY
+            v.d = u.d+1
+            v.π = u
+            ENQUEUE(Q, v)
+    u.color = BLACK
+</code></pre>
+<h4 id="2-3-2-DFS-Depth-First-Search"><a href="#2-3-2-DFS-Depth-First-Search" class="headerlink" title="2.3.2 DFS (Depth-First Search)"></a>2.3.2 DFS (Depth-First Search)</h4><table>
+<thead>
+<tr>
+<th><strong>Running Time</strong></th>
+</tr>
+</thead>
+<tbody><tr>
+<td>Ajacency List</td>
+</tr>
+<tr>
+<td>Ajencency Matrix</td>
+</tr>
+</tbody></table>
+<pre><code class="python">DFS(G)
+ for each vertex u ∈ V
+    u. color = WHITE
+    u.π = NIL
+ time=O
+DFS-VISIT(G, u)
+ time = time + 1
+ u.d = time
+ u.color = GRAY
+ for each v ∈ Adj[u]
+        if v.color == WHITE
+            v.π = u
+            DFS-VISIT(Q, v)
+ u.color = BLACK
+ time = time + 1
+ u.f = time
+</code></pre>
+<p><strong>Kinds of Edges</strong><br><img src="https://upload.wikimedia.org/wikipedia/commons/thumb/5/57/Tree_edges.svg/2560px-Tree_edges.svg.png" alt="Kinds of Edges in Digraph"></p>
+<blockquote>
+<ul>
+<li><strong>Tree edge</strong>: (π[u], u)<br>v is white when (u,v) is first explored</li>
+</ul>
+</blockquote>
+<ul>
+<li><strong>Back edge</strong>: Descendant to ancestor<br>v is gray when (u,v) is first explored</li>
+<li><strong>Forward edge</strong>: Ancestor to descendant<br>v is black when (u,v) is first explored</li>
+<li><strong>Cross edge</strong>: Two nodes no ancestor-descendant relation or in two different dfs trees<br>v is black when (u,v) is first explored</li>
+</ul>
+<p><strong>p.s. Undirected Graph only has tree edges and back edges.</strong></p>
+<p><strong>Parenthesis Theorem</strong></p>
+<blockquote>
+<p>In any DFS of directed or undirected graph, for u and v, one of the following holds:</p>
+</blockquote>
+<ol>
+<li>[d(u), f(u)] and [d(v), f(v)] are disjoint;</li>
+<li>d(u) &lt; d(v) &lt; f(v) &lt; f(u);</li>
+<li>d(v) &lt; d(u) &lt; f(u) &lt; f(v).</li>
+</ol>
+<blockquote>
+<p>Prove: Suppose d(u) &lt; d(v)<br>case1: f(u) &lt; d(v), u has been completed visited when discover v &#x3D;&gt; [d(u), f(u)] and [d(v), f(v)] are disjoint;<br>case2: f(u) &gt; d(v), v was discovered when u is gray &#x3D;&gt; v is u’s descendant &#x3D;&gt; f(u)&gt;f(v) &#x3D;&gt;d (u) &lt; d(v) &lt; f(v) &lt; f(u)</p>
+</blockquote>
+<p><strong>Corollary: Nesting of Descendant’s Intervals</strong></p>
+<blockquote>
+<p>v is a proper descendant of u in DFS forest if and only if d(u) &lt; d(v) &lt; f(v) &lt; f(u)</p>
+</blockquote>
+<p><strong>White-path Theorem</strong></p>
+<blockquote>
+<p>V Vertex v is a descendant of u in a DFS tree if and only if at time d(u) that u was discovered, vertex v can be reached from u along a path consisting entirely of white vertices.<br>Prove:<br>&#x3D;&gt; :</p>
+</blockquote>
+<ul>
+<li>Let w be any vertex on path u-&gt;v, w is u’s decendant.</li>
+<li>According to Parethesis theorem,  d[w]&gt;d[u] &#x3D;&gt; w was white at time d[u].</li>
+<li>&#x3D;&gt; The path between u and v in DFS tree is a white path.<br>&lt;&#x3D; :</li>
+<li>Let w1 be the node which is the closest to u on p but not a descendant of u in DFS</li>
+<li>Let w2 be the predecessor of  w1, and w2 is a descendant of u in DFS</li>
+<li>&#x3D;&gt; d(u) &lt; d(w2) &lt; f(w2) &lt; f(u) (Nesting Corollary)</li>
+<li>&#x3D;&gt; d(w1) &lt; f(w2)</li>
+<li>&#x3D;&gt; d(u) &lt; d(w2) &lt; d(w1) &lt; f(w1) &lt; f(w2) &lt; f(u) (Parethesis theorem)</li>
+<li>&#x3D;&gt; w1 is u’s descendant (Nesting Corollary)</li>
+</ul>
+<p><strong>DFS in Undirected Graph</strong></p>
+<blockquote>
+<p>In a depth-first search of an undirected graph G, every edge of G is either a tree edge or a back edge.<br>Prove:assume d(u) &lt; d(v), then d(v) &lt; f(v) &lt; f(u). (white path theorem)</p>
+</blockquote>
+<ol>
+<li>if the first time (u,v) is processed, it is from u’s adjacency list, then v must not have been discovered (v is white), then (u,v) is a tree edge.</li>
+<li>if the first time (u,v) is processed, it is from v’s adjacency list, then u is still gray, then (u,v) is a back edge.</li>
+</ol>
+<p><strong>DFS &amp; Graph Cycle: undirected</strong></p>
+<blockquote>
+<p>An undirected graph is acyclic iff a DFS yields no back edges<br>Running Time: $O(|V|)$<br>$O(|V|+|E|)$, undirected and acyclic &#x3D;&gt; $|E| ≤ |V| - 1$ &#x3D;&gt; $O(|V|)$</p>
+</blockquote>
+<p><strong>DFS &amp; Graph Cycle: directed</strong></p>
+<blockquote>
+<p>A directed graph is acyclic iff a DFS yields no back edges<br>Prove:<br>&#x3D;&gt; Suppose it has a back edge (u,v), v is an ancestor of u, then back edge (u,v) completes a cycle.<br>&lt;&#x3D; Suppose G has a cycle c, let v be the first vertex, u is the predecessor of v in cycle c, at time d(v),<br>all vertices of c are white, form a white path from v to u, then u becomes a descendant of v, (white path theorem), (u,v) is a back edge.<br>&#x2F;&#x2F;Add fig here</p>
+</blockquote>
+<h3 id="2-4-DAGs-amp-TOPOLOGICAL-SORT"><a href="#2-4-DAGs-amp-TOPOLOGICAL-SORT" class="headerlink" title="2.4 DAGs &amp; TOPOLOGICAL SORT"></a>2.4 DAGs &amp; TOPOLOGICAL SORT</h3><p>A DAG is a directed graph that contains no directed cycles.<br><img src="https://assets.leetcode.com/users/images/63bd7ad6-403c-42f1-b8bb-2ea41e42af9a_1613794080.8115625.png" alt="TOPOLOGICAL SORT"></p>
+<blockquote>
+<p>TOPOLOGICAL-SORT(G)</p>
+</blockquote>
+<ol>
+<li>Call <strong>DFS(G)</strong> to compute finishing times f(v) for each vertex v</li>
+<li>As each vertex is <strong>finished</strong>, <strong>insert it onto the front of a linked list</strong></li>
+<li><strong>Return the linked list of vertices</strong></li>
+</ol>
+<p><strong>Correctness of TOPOLOGICAL-SORT</strong></p>
+<blockquote>
+<p>TOPOLOGICAL-SORT produces a topological sort of the directed acyclic graph provided as its input<br>(For any u-&gt;v in graph, u will be in front of v after TOPOLOGICAL-SORT)<br>So prove if(u,v) in G, then f(u)&gt;f(v).<br>Proof:<br>when (u,v) is explored by DFS, v cannot be gray (otherwise we have back-edge, not possible with DAG)</p>
+</blockquote>
+<ol>
+<li>if v is white, then v is descendant of u, f(u)&gt;f(v)</li>
+<li>if v is black, we have finished exploring v when we are processing u (u is gray), so f(u)&gt;f(v)</li>
+</ol>
+<h3 id="2-5-SCC-Strong-Connected-Components"><a href="#2-5-SCC-Strong-Connected-Components" class="headerlink" title="2.5 SCC (Strong Connected Components)"></a>2.5 SCC (Strong Connected Components)</h3><p><strong>Component DAG</strong><br><img src="https://rosalind.info/media/sccexample.png" alt="Component DAG"></p>
+<blockquote>
+<p>Computing the scc of a digraph<br>Partition the vertices of the digraph into subsets such that the induced subgraph of each subset is strongly connected.<br>Merging the vertices in each strong component into a single super vertex, and joint two super-vertices<br>The resulting digraph, called the component DAG.</p>
+</blockquote>
+<p><strong>Kosaraju’s algorithm (2 pass DFS)</strong></p>
+<blockquote>
+<p>STRONGLY-CONNECTED-COMPONENTS(G)</p>
+</blockquote>
+<ol>
+<li>call DFS(G) to compute finishing times f(u) for each vertex u</li>
+<li>compute G’ (reversing all edges of G)</li>
+<li>call DFS(G’), but in the main loop of DFS, consider the vertices in order of decreasing f(u) (as computed in line 1)</li>
+<li>output the vertices of each tree in the depth-first forest formed in line 3 as a separate scc</li>
+</ol>
+<p>Running Time: $O(|V|+|E|)$<br><strong>Correctness of Kosaraju’s algorithm:</strong></p>
+<blockquote>
+<ol>
+<li>View G as Component DAG</li>
+</ol>
+</blockquote>
+<ol start="2">
+<li>After first DFS, each component (C) has a finish time f(C), which is the<br>latest finish time of all nodes in C;</li>
+<li>If there is an edge (u,v) from C’ to C, then f(C) &lt; f(C’) (because there will be no path from C back to C’)</li>
+<li>The second DFS pass applies to GT , which has the same connected components as G. DFS starts with the node v with largest f(v), i.e., it starts with the component C1 with largest f(C1), then there is no edge from any other component C’ to C1 in G (otherwise f(C1) &lt; f(C’)), i.e., there is no edge from C1 to any other component C’ in GT</li>
+<li>DFS will return the first DFS tree for nodes in C1</li>
+<li>DFS will move to component C2 with the second largest f(C2) value, similar arguments applies, to show that it will return a DFS tree for nodes in C2</li>
+<li>Repeat until all components are traversed by DFS</li>
+</ol>
+<p><strong>Tarjan’s algorithm</strong><br><img src="https://upload.wikimedia.org/wikipedia/commons/6/60/Tarjan%27s_Algorithm_Animation.gif" alt="Tarjan"></p>
+<blockquote>
+<ol>
+<li>The vertices are indexed as they are traversed by DFS procedure.</li>
+</ol>
+</blockquote>
+<ol start="2">
+<li>while turning from the recursion of DFS, every vertex v gets assigned a vertex L as a representative.</li>
+<li>L is a vertex with the least index that can be reached from v and is still on the stack.</li>
+<li>Nodes with the same representative assigned are located in the same strongly connected component.</li>
+</ol>
+<p>Running Time: $O(|V|+|E|)$</p>
+<h2 id="3-Minimum-Spanning-Tree"><a href="#3-Minimum-Spanning-Tree" class="headerlink" title="3 Minimum Spanning Tree"></a>3 Minimum Spanning Tree</h2><p><strong>MST:</strong> The subset of edges that connected all vertices in the graph, and has minimum total weight<br>e.g.<br><strong>Greedy algorithm</strong> for solving MST<br><img src="https://i.loli.net/2018/07/05/5b3e0b610ecd1.png" alt="MST generating"><br>{a, b} and {c, f, g, h, i} (c, d) is <strong>light edge</strong>(Lightest edge and one end ∈ V another end ∈ {V - S})<br>Always choose the light edge</p>
+<ul>
+<li><strong>Prim’s algorithm</strong></li>
+<li><strong>Kruskal’s algorithm</strong></li>
+</ul>
+<h3 id="3-1-Prim-Algorithm"><a href="#3-1-Prim-Algorithm" class="headerlink" title="3.1 Prim Algorithm"></a>3.1 Prim Algorithm</h3><blockquote>
+<p><strong>IDEA</strong>:</p>
+</blockquote>
+<ul>
+<li>First, a <strong>node</strong> is used as the initial node of the minimum spanning tree</li>
+<li>Then the edge with <strong>the smallest weight of each node</strong> in the minimum spanning tree is found out in an iterative manner, and <strong>added to the minimum spanning tree.</strong> (After joining, <strong>if a loop is generated</strong>, <strong>skip</strong> this edge and select the next node.)</li>
+<li>When <strong>all nodes are added</strong> to the minimum spanning tree, the MST is found.</li>
+</ul>
+<p>e.g.<br><img src="https://upload.wikimedia.org/wikipedia/commons/9/9b/PrimAlgDemo.gif" alt="Prim-1"><br><img src="https://www.dotnetlovers.com/images/PrimsAlgorithmforMinimumSpanningTreeMST120201934156AM.png" alt="prim-2"></p>
+<p><strong>Pseudo Code:</strong><br>Maintain V – A as a priority queue Q. Key each vertex in Q with the weight of the least- weight edge connecting it to a vertex in A.</p>
+<pre><code class="python"># Initialization
+for each v ∈ G.V:
+    v.d = ∞
+s.d = 0
+Q = V
+# Greedy: choose light edge using a priority Q
+While Q ≠ ø:
+    u = EXTRACT_MIN(Q)
+    for each v ∈ G.adj[u]:
+        do if v ∈ Q and w(u,v) &lt; v.d: # v ∈ Q (&#123;V-S&#125;) guaranteed no loop
+            then v.d = w(u,v) # Implicit DECREASE_KEY 
+            v.π = u
+</code></pre>
+<p>$Time &#x3D; Θ(V)·T_{EXTRACT-MIN} + Θ(E)·T_{DECREASEKEY}$</p>
+<table>
+<thead>
+<tr>
+<th align="left">$Q$</th>
+<th align="left">$T_{EXTRACT-MIN}$</th>
+<th align="left">$T_{DECREASEKEY}$</th>
+<th align="left">$Total$</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">array</td>
+<td align="left">$O(V)$</td>
+<td align="left">$O(1)$</td>
+<td align="left">$O(V^2)$</td>
+</tr>
+<tr>
+<td align="left">binary heap</td>
+<td align="left">$O(lgV)$</td>
+<td align="left">$O(lgV)$</td>
+<td align="left">$O(ElogV)$</td>
+</tr>
+<tr>
+<td align="left">Fibonacci heap</td>
+<td align="left">$O(lg V)$</td>
+<td align="left">$O(1)$</td>
+<td align="left">$O(E+VlogV)$</td>
+</tr>
+</tbody></table>
+<h3 id="3-2-Kruskal-Algorithm"><a href="#3-2-Kruskal-Algorithm" class="headerlink" title="3.2 Kruskal Algorithm"></a>3.2 Kruskal Algorithm</h3><blockquote>
+<p>IDEA:</p>
+</blockquote>
+<ul>
+<li>Before the Kruskal algorithm finds the minimum spanning tree node, it needs to sort the weights from small to large.</li>
+<li>Add the sorted weight edges to the minimum spanning tree in turn (if a loop is generated when joining, skip this edge and add the next edge).</li>
+<li>When all nodes are added to the minimum spanning tree, the minimum spanning tree of this connected graph is found.**<br>e.g.<br><img src="https://he-s3.s3.amazonaws.com/media/uploads/6322896.jpg" alt="Kruskal"></li>
+</ul>
+<p><strong>Pseudo Code:</strong></p>
+<pre><code class="python"># Initialization
+SORT(u,v)  ∈ G.E in increasing order and save in SET&#123;E&#125;
+S = &#123;&#125;
+# Greedy: choose light edge from disjoint set
+    for each (u,v) ∈ SET&#123;E&#125;:
+       if FIND_SET(u) != FIND_SET(v)
+            S = S ∪ &#123;(u.v)&#125;
+            UNION(u, v)
+return S
+</code></pre>
+<p>$Time &#x3D; O(ElogV)$</p>
+<h2 id="4-Shortest-Path"><a href="#4-Shortest-Path" class="headerlink" title="4 Shortest Path"></a>4 Shortest Path</h2><h3 id="Summary"><a href="#Summary" class="headerlink" title="Summary"></a>Summary</h3><table>
+   <tr>
+      <td>
+         Class
+      </td>
+      <td>
+         Algorithm
+      </td>
+      <td>
+         Requisite
+      </td>
+      <td>
+         Time
+      </td>
+      <td>
+         Dp/Greedy
+      </td>
+   </tr>
+   <tr>
+         <td rowspan="4">Single Source</td>
+      <td>
+         Dijkstra’s algorithm
+      </td>
+      <td>
+         Graph with nonnegative edge weights(works with cycles)
+      </td>
+      <td>
+        $O(|E|log|V|)$
+      </td>
+      <td>
+         Greedy
+      </td>
+    
+   </tr>
+   <tr>
+      <td>
+         BFS
+      </td>
+      <td>
+         Weight = 1(works with cycles)
+      </td>  
+      <td>
+        $O(|V|+|E|)$
+     </td>
+     <td>
+         N/A
+      </td>
+   </tr>
+   <tr>
+      <td>
+         Bellman-Ford algorithm
+      </td>
+      <td>
+         General Case (works with negative cycles)
+      </td>
+       <td>
+          $O(|V||E|)$
+      </td>
+      <td>
+         Dp
+      </td>
+   </tr>
+   <tr>
+      <td>
+         Topological sort + one pass Bellman-Ford
+      </td>
+      <td>
+         DAG (works with negative edges) 
+      </td>
+      <td>
+         $O(|V|+|E|)$
+      </td>
+      <td>
+         Dp
+      </td>
+   </tr>
+   <tr>
+      <td rowspan="2">All pairs</td>
+      <td>
+         Floyd-Warshall algorithm
+      </td>
+      <td>
+         No negative cycles, works with negative edges 
+      </td>
+      <td>
+        $O(n^3)$
+      </td>
+      <td>
+         Dp
+      </td>
+   </tr>
+   <tr>
+      <td>
+         Transitive Closure of a Directed Graph
+      </td>
+      <td>
+         No negative cycles, works with negative edges
+      </td>
+      <td>
+          $O(|V|^3)$
+      </td>
+      <td>
+         Dp
+      </td>
+   </tr>
+   <tr>
+   </tr>
+</table>
+
+<h3 id="4-1-Nonnegative-Edges-–-Dijkstra-algorithm"><a href="#4-1-Nonnegative-Edges-–-Dijkstra-algorithm" class="headerlink" title="4.1 Nonnegative Edges – Dijkstra algorithm"></a>4.1 Nonnegative Edges – Dijkstra algorithm</h3><p>Dijkstra 可以理解为对于每一个点 $u$ , 计算出经过每个和 $u$ 相邻的 $v$到源点的距离，以及如果源点可以直接到$u$的距离, 比较所有距离， 得出$u$ 和源点的最短距离，在这个过程中对每个点永远选最优的，直到遍历所有点。<br>Dijkstra can be understood as for each point $u$, calculate the distance from each $v$ adjacent to $u$ to the source point, and the distance from the source point directly to $u$, compare all the distances, and get The shortest distance between $u$ and the source point, in this process, always choose the shortest path for each point until all points are traversed.</p>
+<pre><code class="python"># Initialization
+for each v ∈ G.V:
+    v.d = ∞
+s.d = 0
+S = &#123;&#125;
+Q = MIN_HEAPIFY(V)
+# Greedy: Do relaxation using a priority Q
+While Q ≠ ø:
+    u = EXTRACT_MIN(Q)
+    S = S ∪ &#123;u&#125;
+    for each v ∈ G.adj[u]:
+        do if u.d + w(u,v) &lt; v.d: 
+            then v.d = w(u,v) + u.d # Implicit DECREASE_KEY 
+            v.π = u
+</code></pre>
+<p>$Time &#x3D; Θ(V)·T_{EXTRACT-MIN} + Θ(E)·T_{DECREASEKEY}$</p>
+<table>
+<thead>
+<tr>
+<th align="left">$Q$</th>
+<th align="left">$T_{EXTRACT-MIN}$</th>
+<th align="left">$T_{DECREASEKEY}$</th>
+<th align="left">$Total$</th>
+</tr>
+</thead>
+<tbody><tr>
+<td align="left">array</td>
+<td align="left">$O(V)$</td>
+<td align="left">$O(1)$</td>
+<td align="left">$O(V^2)$</td>
+</tr>
+<tr>
+<td align="left">binary heap</td>
+<td align="left">$O(lgV)$</td>
+<td align="left">$O(lgV)$</td>
+<td align="left">$O(ElogV)$</td>
+</tr>
+<tr>
+<td align="left">Fibonacci heap</td>
+<td align="left">$O(lg V)$</td>
+<td align="left">$O(1)$</td>
+<td align="left">$O(E+VlogV)$</td>
+</tr>
+</tbody></table>
+<h3 id="4-2-Unweighted-graphs-–-BFS"><a href="#4-2-Unweighted-graphs-–-BFS" class="headerlink" title="4.2 Unweighted graphs – BFS"></a>4.2 Unweighted graphs – BFS</h3><pre><code class="python"># Initialization
+for each v ∈ G.V:
+    v.d = ∞
+s.d = 0
+S = &#123;&#125;
+Q = MIN_HEAPIFY(V)
+# Greedy: Do relaxation using a priority Q
+While Q ≠ ø:
+    u = DEQUEUE(Q)
+    S = S ∪ &#123;u&#125;
+    for each v ∈ G.adj[u]:
+        do if v.d = ∞ : 
+            then v.d = 1 + u.d 
+            v.π = u
+            ENQUEUE(Q, v)
+</code></pre>
+<p>$Time &#x3D; O(|V| + |E|)$</p>
+<h3 id="4-3-General-Case-–-Bellman-Ford-algorithm"><a href="#4-3-General-Case-–-Bellman-Ford-algorithm" class="headerlink" title="4.3 General Case – Bellman-Ford algorithm"></a>4.3 General Case – Bellman-Ford algorithm</h3><pre><code class="python"># Initialization
+for each v ∈ G.V:
+    v.d = ∞
+s.d = 0
+S = &#123;&#125;
+Q = MIN_HEAPIFY(V)
+# Greedy: Do relaxation using a priority Q
+While Q ≠ ø:
+    u = EXTRACT_MIN(Q)
+    S = S ∪ &#123;u&#125;
+    for each i from 1 to |V| - 1:
+        for each (u,v) ∈ G.E:
+            if v.d &gt; u.d + w(u,v)
+                then v.d = w(u,v) + u.d 
+                v.π = u
+    for each (u,v) ∈ G.E:
+            if v.d &gt; u.d + w(u,v):
+            then report a negative-weight cycle exists
+</code></pre>
+<p>$Time &#x3D; O(|VE|)$<br><strong>p.s.<br>If there is a negative-weight cycle, the result will not converge.<br>Otherwise, d[v] &#x3D; δ(s, v).</strong></p>
+<h3 id="4-4-DAG-–-Topological-sort-one-pass-Bellman-Ford"><a href="#4-4-DAG-–-Topological-sort-one-pass-Bellman-Ford" class="headerlink" title="4.4 DAG – Topological sort + one pass Bellman-Ford"></a>4.4 DAG – Topological sort + one pass Bellman-Ford</h3><pre><code class="python">Call TOPOLOGICAL SORT for G
+# Initialize
+for each v ∈ G.V:
+    v.d = ∞
+s.d = 0
+S = &#123;&#125;
+for each u ∈ G.V take in Topological sort order
+    for each v ∈ G.adj[u]
+         if v.d &gt; u.d + w(u,v)
+            then v.d = u.d + w(u,v)
+            v.π = u
+</code></pre>
+<p>$Time &#x3D; O(|V| + |E|)$</p>
+<h3 id="4-5-All-pairs-shortest-paths-–-Floyd-Warshall-algorithm"><a href="#4-5-All-pairs-shortest-paths-–-Floyd-Warshall-algorithm" class="headerlink" title="4.5 All-pairs shortest paths – Floyd-Warshall algorithm"></a>4.5 All-pairs shortest paths – Floyd-Warshall algorithm</h3><p><strong>Dynamic programming</strong><br><strong>Initialize</strong> when k &#x3D; 0:<br>$D^{(0)} &#x3D; [w_{ij}]$<br><strong>State Transition Equations</strong> when k ≥ 1:<br>$d^{k}<em>{ij} &#x3D; min{d^{k - 1}</em>{ij},d^{k - 1}<em>{ik} + d^{k - 1}</em>{kj} }$</p>
+<pre><code class="python">Floyd-Warshall(w)
+# Initialize
+for i from 1 to n:
+    for j from 1 to n:
+        d[i][j] = w(i,j)
+for k from 1 to n: 
+    let D(k) = d[i][j]
+    for i from 1 to n:
+        for j from 1 to n:
+          d[i][j] = min(d[i][j], d[i][k] +d[j][k])
+return D(n)
+</code></pre>
+<p>$Time &#x3D; O(n^3)$<br><strong>If need to Extact Path:</strong><br><strong>Initialize</strong> when k &#x3D; 0:</p>
+<p>$$<br>π_{ij}&#x3D;\left{<br>\begin{array}{rcl}<br>1      &amp;      &amp; {if;there;exists;a;path;from;i;to;j}\<br>0      &amp;      &amp; {Otherwise}<br>\end{array} \right.<br>$$</p>
+<p><strong>State Transition Equations</strong> when k ≥ 1:</p>
+<p>$$<br>π_{ij}^{k}&#x3D;\left{<br>\begin{array}{rcl}<br>π_{ij}^{k - 1}      &amp;      &amp; {if;d^{k}<em>{ij} ≤ d^{k - 1}</em>{ik} + d^{k - 1}<em>{kj}}\<br> π</em>{kj}^{k - 1}     &amp;      &amp; {if;d^{k}<em>{ij} &gt; d^{k - 1}</em>{ik} + d^{k - 1}_{kj}}<br>\end{array} \right.<br>$$</p>
+<h3 id="4-6-Transitive-Closure-of-a-Directed-Graph-–-Modified-Floyd-Warshall-algorithm"><a href="#4-6-Transitive-Closure-of-a-Directed-Graph-–-Modified-Floyd-Warshall-algorithm" class="headerlink" title="4.6 Transitive Closure of a Directed Graph – Modified Floyd-Warshall algorithm"></a>4.6 Transitive Closure of a Directed Graph – Modified Floyd-Warshall algorithm</h3><p><strong>Initialize</strong> when k &#x3D; 0:</p>
+<p>$$<br>t_{ij}&#x3D;\left{<br>\begin{array}{rcl}<br>1      &amp;      &amp; {if;there;exists;a;path;from;i;to;j}\<br>0       &amp;      &amp; {Otherwise}<br>\end{array} \right.<br>$$</p>
+<p><strong>State Transition Equations</strong> when k ≥ 1:<br>$t_{ij}^{k} &#x3D; t_{ij}^{k} \cup (t_{ik}^{k - 1} \cap t_{kj}^{k - 1}) $<br>$Time &#x3D; O(n^3)$</p>
+<h2 id="5-Dynamic-Programming"><a href="#5-Dynamic-Programming" class="headerlink" title="5 Dynamic Programming"></a>5 Dynamic Programming</h2><h3 id="5-1-Basic-Definition-vs-Devide-and-Conquer"><a href="#5-1-Basic-Definition-vs-Devide-and-Conquer" class="headerlink" title="5.1 Basic Definition vs Devide and Conquer"></a>5.1 Basic Definition vs Devide and Conquer</h3><blockquote>
+<ul>
+<li>DP: Break up a problem into a series of <strong>overlapping subproblems</strong>, and build up solutions to larger and larger subproblems.</li>
+<li>Partition the problem into <strong>independent subproblems</strong>.<br>Solve the subproblems recursively<br>Combine the solutions to solve the original problem</li>
+</ul>
+</blockquote>
+<h3 id="5-2-Rod-Cutting"><a href="#5-2-Rod-Cutting" class="headerlink" title="5.2 Rod Cutting"></a>5.2 Rod Cutting</h3><p><img src="https://www.codesdope.com/staticroot/images/algorithm/rod1.png" alt="Rod cutting problem"><br><img src="https://www.codesdope.com/staticroot/images/algorithm/rod3.png" alt="此处输入图片的描述"><br>Task: After cutting, the pieces is maximum</p>
+<h4 id="5-2-1-Top-down-Approach-left-to-right"><a href="#5-2-1-Top-down-Approach-left-to-right" class="headerlink" title="5.2.1 Top-down Approach(left to right)"></a>5.2.1 Top-down Approach(left to right)</h4><p><img src="https://www.codesdope.com/staticroot/images/algorithm/rod8.png" alt="cut it or not"></p>
+<pre><code class="python">INITIALIZATION():
+for i = 1 to n:
+    revenue [i] == -∞
+# DP
+TOP_DOWN_ROD_CUTTING(p, n, max_r )
+    if revenue [n] ≥ 0:
+        return revenue [n]
+    if n == 0:
+        max_r = -∞
+    for i from i to n:
+        max_r = max(max_r, p[i] +TOP_DOWN_ROD_CUTTING(p, n-i, max_r))
+    revenue[n]= max_r 
+    return max_r
+</code></pre>
+<p>$Time &#x3D; \theta (n^2) $</p>
+<h4 id="5-2-2-Bottom-up-Approach-right-to-left"><a href="#5-2-2-Bottom-up-Approach-right-to-left" class="headerlink" title="5.2.2 Bottom-up Approach (right to left)"></a>5.2.2 Bottom-up Approach (right to left)</h4><p><img src="https://www.codesdope.com/staticroot/images/algorithm/rod5.png" alt="bottom up-1"><br><img src="https://www.codesdope.com/staticroot/images/algorithm/rod6.png" alt="bottom up-2"></p>
+<pre><code class="python">INITIALIZATION():
+for i = 1 to n:
+    revenue [i] == -∞
+# DP
+BOTTOM_UP_ROD_CUTTING(p, n, max_r )
+    for i from i to n:
+        max_r = -∞
+        for j from 1 to i:
+            max_r = max(max_r, price[j] + revenue[i - j] )
+        revenue[i]= max_r 
+    return revenue[n]
+</code></pre>
+<p>$Time &#x3D; \theta (n^2) $</p>
+<h4 id="5-2-2-Bottom-up-approach-also-get-optimal-value"><a href="#5-2-2-Bottom-up-approach-also-get-optimal-value" class="headerlink" title="5.2.2 Bottom-up approach also get optimal value"></a>5.2.2 Bottom-up approach also get optimal value</h4><pre><code class="python">INITIALIZATION():
+for i = 1 to n:
+    revenue [i] == -∞
+# DP
+EXTEND_BOTTOM_UP_ROD_CUTTING(p, n, max_r )
+    for i from i to n:
+        max_r = -∞
+        for j from 1 to i:
+            if max_r &lt; price[j] + revenue[i - j]:
+                max_r =  price[j] + revenue[i - j] 
+                s[i] = j
+        revenue[i]= max_r 
+    return revenue ands s
+</code></pre>
+<p>$Time &#x3D; \theta (n^2) $</p>
+<h3 id="5-3-Longest-Common-Subsequence-LCS"><a href="#5-3-Longest-Common-Subsequence-LCS" class="headerlink" title="5.3  Longest Common Subsequence (LCS)"></a>5.3  Longest Common Subsequence (LCS)</h3><p>A subsequence of a string S, is a set of characters that appear in left-to-right order, but not necessarily consecutively.<br><img src="https://www.tutorialspoint.com/design_and_analysis_of_algorithms/images/lcs.jpg" alt="LCS"></p>
+<pre><code class="python">#Initialize
+m, n = max(len(X), len(Y))
+for i from 1 to m:
+    c[i][0] = 0
+for j from 1 to n:
+    c[0][j] = 0
+# dp
+for i from 1 to m:
+    for j from 1 to n:
+        do  if X[i] = Y[i]:
+            c[i][j] = c[i - 1][j - 1]+ 1
+            b[i][j].π = (i-1 ,j-1)
+        else if c[i - 1][j] ≥ c[i][j - 1]
+            c[i][j] = c[i - 1][j]
+            b[i][j].π = (i-1, j)
+            else:
+                 c[i][j] = c[i][j - 1]
+                 b[i][j].π = (i, j - 1)
+return c and b
+</code></pre>
+<p>$Time &#x3D; O(mn)$</p>
+<h3 id="5-4-0-1-Knapsack"><a href="#5-4-0-1-Knapsack" class="headerlink" title="5.4 0-1 Knapsack"></a>5.4 0-1 Knapsack</h3><p>In this type of knapsack problem, there is only one item of each kind (or we can pick only one). So, we are available with only two options for each item, either pick it or leave it.<br><img src="https://www.codesdope.com/staticroot/images/algorithm/knap1.png" alt="knap"><br><img src="https://www.codesdope.com/staticroot/images/algorithm/knap4.png" alt="knap"><br><strong>Initialize</strong><br>$ B[i, j]&#x3D; 0, if; i &#x3D; 0 ;or; j &#x3D; 0$<br><strong>State Transition Equations</strong><br>Let $B[w,k]$ be the solution of 0-1 knapsack problem over items from 1 to $k$, under weight budgetof $w$.</p>
+<p>$$<br>B[w, k]&#x3D;\left{<br>\begin{array}{rcl}<br>B[w, k - 1] &amp;      &amp; {if;w[k] &gt; w}\<br>max{B[w, k - 1], B[w - w_{k}, k - 1] + v[k]}&amp;      &amp; {if;w[k] ≤ w}<br>\end{array} \right.<br>$$</p>
+<h2 id="6-Greedy"><a href="#6-Greedy" class="headerlink" title="6 Greedy"></a>6 Greedy</h2><p>A greedy algorithm always makes the choice that looks best at the moment</p>
+<h3 id="6-1-Proof-of-greedy-algorithms-correctness"><a href="#6-1-Proof-of-greedy-algorithms-correctness" class="headerlink" title="6.1 Proof of greedy algorithms correctness"></a>6.1 Proof of greedy algorithms correctness</h3><blockquote>
+<p>To prove the correctness of greedy algorithms, we need to prove both <strong>greedy-choice</strong> property and <strong>optimal-substructure</strong> property.</p>
+</blockquote>
+<blockquote>
+<ul>
+<li>Greedy-choice property: “A <strong>globally optimal</strong> solution can be arrived at by making a locally optimal (greedy) choice.”</li>
+<li>Optimal substructure property:“A problem exhibits optimal substructure if an optimal solution to the problem <strong>contains within</strong> it <strong>optimal solutions</strong> to <strong>subproblems</strong>.”</li>
+</ul>
+</blockquote>
+<h3 id="6-2-Activity-Selection-Problem"><a href="#6-2-Activity-Selection-Problem" class="headerlink" title="6.2 Activity-Selection Problem"></a>6.2 Activity-Selection Problem</h3><p>The activity-selection problem is the problem of selecting the largest set of mutually compatible activities.<br><img src="https://www.codesdope.com/staticroot/images/algorithm/activity5o1.png" alt="Activity-Selection Problem"></p>
+<blockquote>
+<ul>
+<li>IDEA:<br>Select the activity with the earliest finish time Eliminate the activities that could not be scheduled Repeat!<br><img src="https://www.codesdope.com/staticroot/images/algorithm/greedy_activity.gif" alt="Activity-Selection sol"></li>
+</ul>
+</blockquote>
+<p>Pseudo code:</p>
+<pre><code class="python">GREEDY-Activity-Selection(a1)
+ S = &#123;a1&#125;
+ n = len(a1)
+ i = 1
+ for m = 2 to n:
+    do if sm ≥ fi:
+        S = S ∪ &#123;am&#125;
+        i = m
+ return S
+</code></pre>
+<p>$Time &#x3D; O(nlogn)$</p>
+<p><strong>Prove its correctness</strong></p>
+<blockquote>
+<ul>
+<li>Greedy-Choice Property:(with activity 1, which as the earliest finish time)<br>Suppose A is an optimal solution, k is first activity in A<br>If k &#x3D; 1, the schedule A begins with a greedy choice<br>if k ≠ 1 LetB &#x3D; A – {k} ∪ {1}<br>• f1 ≤f k activities in B are disjoint(compatible)<br>• B has the same number of activities as A<br>• Thus, B is optimal</li>
+<li>Optimal Substructure Property:<br>Proof: If A is optimal to S, then A’ &#x3D; A – {1} is optimal to S’&#x3D;{i ∈S: si ≥ f1}<br>If we could find a solution B’ to S’ with more activities than A’, adding activity 1 to B’ would yield a solution B to S with more activities than A<br>! contradicting the optimality of A</li>
+</ul>
+</blockquote>
+<h3 id="6-3-Knapsack-Problem-Fractional-knapsack-problem"><a href="#6-3-Knapsack-Problem-Fractional-knapsack-problem" class="headerlink" title="6.3 Knapsack Problem(Fractional knapsack problem)"></a>6.3 Knapsack Problem(Fractional knapsack problem)</h3><p>Here, we can take even a fraction of any item. For example, take an example of powdered gold, we can take a fraction of it according to our need.</p>
+<blockquote>
+<ol>
+<li>Sort items by vj&#x2F;wj, renumber.</li>
+</ol>
+</blockquote>
+<ol start="2">
+<li>For i &#x3D; 1 to n<br>Add as much of item i as possible</li>
+</ol>
+<p>$Time &#x3D; O(nlogn)$<br><strong>Prove correctness</strong></p>
+<blockquote>
+<ul>
+<li>Greedy-Choice Property:<br>Let j be the item with maximum vi&#x2F;wi.<br>Suppose you didn’t take as much item j as possible<br>If if its not full, just take more of j, get a higher value.<br>! Contridiction<br>Thus we assume its full. Suppose an optimal solution don’t make greedy choice<br>Thus there must exist item k ≠ j, $v_{k}&#x2F;w_{k} &lt; v_{j}&#x2F;w_{j}$.And in this solution not all of j is in the knapsack.<br>we can then exchange µ of k with µ of j<br>This will increase the value by $ µ(v_{j}&#x2F;w_{j} - v_{k}&#x2F;w_{k})$<br>! Contridiction to original solution is optimal</li>
+<li>Optimal Substructure Property:<br>Proof: If A is optimal to S, then A’ &#x3D; A – {1} is optimal to S’&#x3D;{S} - {1}<br>If we could find a solution B’ to S’ with more value than A’, adding item 1 to B’ would yield a solution B to S with more activities than A<br>! contradicting the optimality of A</li>
+</ul>
+</blockquote>
+<h3 id="6-4-Huffman-Coding"><a href="#6-4-Huffman-Coding" class="headerlink" title="6.4 Huffman Coding"></a>6.4 Huffman Coding</h3><p>Huffman invented a greedy algorithm that constructs an <strong>optimal prefix code</strong> called a Huffman code. The algorithm builds the tree T corresponding to the optimal code in a bottom-up manner.</p>
+<blockquote>
+<ul>
+<li>Prefix code: No code is prefix of another code.</li>
+</ul>
+</blockquote>
+<p><strong>IDEA</strong></p>
+<blockquote>
+<ul>
+<li>Create tree (leaf) node for each symbol that occurs with nonzero  frequency</li>
+</ul>
+</blockquote>
+<ul>
+<li>Node weights &#x3D; frequencies</li>
+<li>Find two nodes with smallest frequency</li>
+<li>Create a new node with these two nodes as children, and with weight equal to the sum of the weights of the two children</li>
+<li>Continue until have a single tree<br><img src="https://www.codesdope.com/staticroot/images/algorithm/huffman.gif" alt="huffman code"></li>
+</ul>
+<p><strong>Pseudo code</strong></p>
+<pre><code class="python">Huffman(C)
+ #C is the set of all content
+ Q =  MIN-HEAPIFY(C)
+ While len(Q) &gt; 1:
+    z = newNode()
+    z.left = EXTRACT_MIN(Q)
+    z.right = EXTRACT_MIN(Q)
+    z.freq = z.left + z.right
+    INSERT(Q, z)
+ return EXTRACT-Min(Q) # return the root
+</code></pre>
+<p>$Time &#x3D; O(nlogn)$<br><strong>Prove Huffman code correctness</strong></p>
+<blockquote>
+<ul>
+<li>Greedy-Choice Property:<br>The binary tree for optimal prefix code must be full, and the two characters x and y with the lowest frequencies must have the same longest length and differ only in the last bit.<br>Suppose there is an optimal solution B(T) which x,y don’t have the longest length.<br>So we could exchange the character’s position with x,y we get B(T’)<br>B(T) ≥ B(T’)<br>B(T) is an optimal tree &#x3D;&gt; B(T’) is an optimal tree</li>
+<li>Optimal Substructure Property:<br>Proof: If T is optimal to C, then T’ &#x3D; T – {x,y} is optimal to S’&#x3D;{S} - {x,y} ∪ {z}<br>If T’ is not optimal, find T’’ s.t. B(T’’)&lt;B(T’) z is in C’ &#x3D;&gt; z is a leaf of T’’<br>Add x, y as z’s children to form T’’’<br>&#x3D;&gt; B(T’’’) &#x3D; B(T’’)+x.freq+y.freq &lt; B(T’)+x.freq+y.freq &#x3D; B(t)<br>! Contradiction</li>
+</ul>
+</blockquote>
+<h2 id="7-NP-Completeness"><a href="#7-NP-Completeness" class="headerlink" title="7 NP Completeness"></a>7 NP Completeness</h2><p><img src="https://www.mathsisfun.com/sets/images/complexity-classes.svg" alt="P NP NPC"></p>
+<blockquote>
+<ol>
+<li>P: consists of (decision) problems that are solvable in polynomial time(Worst-case running time is $O(n^k)$, for some constant k)</li>
+</ol>
+</blockquote>
+<ol start="2">
+<li>NP: Nondeterministic polynomial, verification stage is polynomial</li>
+<li>NPC: Problems are defined as the hardest in NP.<br>No polynomial time algorithm has been discovered for an NP-Complete problem</li>
+</ol>
+<p><img src="https://media.geeksforgeeks.org/wp-content/uploads/NP-Completeness-1.png" alt="NOC NP hard"><br><strong>Reductions</strong></p>
+<blockquote>
+<p>A is easier than B (A ≤ B) &#x3D;&gt; A could reduce in polynomial time to B<br><img src="https://media.geeksforgeeks.org/wp-content/uploads/NP-Completeness1.png%22" alt="Reductions"></p>
+</blockquote>
+<p><em><strong>Intersting Halting problem</strong></em></p>
+<blockquote>
+<p>There is no omniscient and omnipotent program which could know all program could exit successfully or will loop forever!<br>Suppose there is an omniscient and omnipotent program Y</p>
+</blockquote>
+<pre><code class="python">Y(program)
+if program exit successfully:
+    return it end
+else
+    return it loop forever
+</code></pre>
+<p>Then suppose another program J</p>
+<pre><code class="python">J(program)
+if Y(program) is end
+    return it loop forever # J just fight against Y!
+else
+    return it end
+</code></pre>
+<p>Now we run J(J)<br><strong>if J end it means it will not end,what a paradox!</strong><br>So God couldn’t make a rock that he couldn’t lift！</p>
+<p><em><strong>Anecdote Why Introduction to Algorithm is called CLRS?</strong></em><br><strong>The authors’ name!</strong><br>Thomas H. Cormen, Charles E. Leiserson, Ronald L. Rivest, and Clifford Stein<br>Oh these smart person!</p>
+</article><div id="paginator"></div></div></div><div id="bottom-outer"><div id="bottom-inner"><hr><div><div><a>2023@ Yin</a><a href="/atom.xml"><img src="/blogs/assets/rss.png"></a></div><div id="hexo"><a>Powered by&nbsp</a><a target="_blank" rel="noopener" href="https://hexo.io">Hexo</a><a>&nbsp&&nbsp</a><a href="https://github.com/qiantao94/hexo-theme-oasis">Oasis</a></div></div></div></div></div></body><script src="/blogs/js/oasis.js"></script></html>
